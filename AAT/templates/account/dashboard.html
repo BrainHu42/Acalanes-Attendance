@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Account Details{% endblock %}</h1>
+<a href="{{ url_for('account.settings') }}">Edit</a>
+{% endblock %}
+
+{% block content %}
+	<h1> Attendance for Period {{ period }} </h1>
+	<div>
+		<h1>Naughty List</h1>
+		{% for student in absent %}
+			<h2>{{ student[0] }}</h2>
+		{% endfor %}
+	</div>
+	<div>
+		<h1>Stranger Danger (Are these people students in your class?)</h1>
+		{% for unknown in stranger %}
+			<label>{{ unknown[2] }}</label> 
+			<a style="float :right" href="{{ url_for('account.reject', userID=unknown[0]) }}">Deny</a>
+			<a style="float :right" href="{{ url_for('account.admit', userID=unknown[0]) }}">Confirm &nbsp;&nbsp;</a>
+		{% endfor %}
+	</div>
+	
+{% endblock %}

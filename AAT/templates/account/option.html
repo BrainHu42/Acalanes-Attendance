@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Which Student is {{ stranger }}?{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <form method='POST'>
+        {% for student in students %}
+            <div>
+                <input type='radio' value='{{ student[0] }}' name='student' />
+                <label> {{student[0]}} </label>
+            </div>
+        {% endfor %}
+        <input type="submit" value="Submit" />
+    </form>
+{% endblock %}

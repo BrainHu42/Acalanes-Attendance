@@ -1,0 +1,4 @@
+include AAT/schema.sql
+graft AAT/static
+graft AAT/templates
+global-exclude *.pyc

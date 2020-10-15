@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Settings{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+    <label for="file">Upload Class Roster</label>
+    <p><input type="file" name="upload-file" accept=".xlsx" required></p>
+    <input type="submit" value="Upload">
+</form>
+{% endblock %}
