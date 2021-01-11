@@ -24,6 +24,7 @@ def get_db():
             password = password,
             host = hostname
         )
+        g.db.cursor().execute('SET timezone = %s;', ('America/Los_Angeles',))
 
     return g.db
 

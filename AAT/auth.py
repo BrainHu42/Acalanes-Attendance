@@ -2,7 +2,7 @@ import functools
 import pip._vendor.requests as requests
 
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for, abort
+    Blueprint, flash, g, redirect, render_template, request, session, url_for, abort, current_app
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -26,7 +26,7 @@ def register():
         #info for access token request to Zoom Oauth server
         URL = 'https://zoom.us/oauth/token?grant_type=authorization_code&code='+authorization_code+'&redirect_uri='+request.base_url
         auth_headers = {
-            "Authorization": "Basic MURIQTJpWUxTWGV4ZFY3dEF4bEJCQToyR3F1ZjBBQ0prTUpORUtVNGU4RXJrcVZMelFOTUdvMA==",
+            "Authorization": "Basic OWZ3M19pc2pRMnFzZkdRcUlGU3dhZzpMa2ZEbTFBTW1pVkQ3WERxTUo1WlRtRHB2U0ZmZlpwNw==",
         }
         error = None
         #storing authorization response in local variables
@@ -38,22 +38,26 @@ def register():
             "Authorization": "Bearer "+access_token,
         }
         user_response = requests.get('https://api.zoom.us/v2/users/me', headers=request_headers)
-        name = user_response.json()['first_name']+" "+user_response.json()['last_name']
-        email = user_response.json()['email'].lower()
-        userID = user_response.json()['id']
+        response_formatted = user_response.json()
+        name = response_formatted['first_name']+" "+response_formatted['last_name']
+        email = response_formatted['email'].lower()
+        userID = response_formatted['id']
+
         #check if all requests went through
         if auth_response.status_code!=200:
             error = "invalid authorization code"
         elif user_response.status_code!=200:
             error = "invalid user"
+        elif any(char.isdigit() for char in email):
+            error = 'Not a teacher'
         else:
             db.execute('SELECT COUNT(email) FROM teacher WHERE email = %s;', (email,))
             if db.fetchone()[0] > 0:
-                error = 'Email {} is already registered.'.format(email)
+                return redirect(url_for('auth.login'))
             
         if error is None:
             db.execute(
-                'INSERT INTO teacher (accessToken, refreshToken, email, name, password, tardyTime, userID) VALUES (%s, %s, %s, %s, %s, %s, %s);',
+                'INSERT INTO teacher (accessToken, refreshToken, email, name, password, tardyTime, userID, startTime) VALUES (%s, %s, %s, %s, %s, %s, %s, NOW());',
                 (access_token, refresh_token, email, name, generate_password_hash(password), 5, userID)
             )
             db_conn.commit()
@@ -62,8 +66,6 @@ def register():
         flash(error)
     
     return render_template('auth/register.html')
-
-
 
 
 @bp.route('/login', methods=('GET', 'POST'))

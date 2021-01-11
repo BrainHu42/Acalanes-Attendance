@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 
 {% block header %}
-<h1>{% block title %}Set Password{% endblock %}</h1>
+<h1>{% block title %}Create Account{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
-<form method="post">
-	<label for="password">Password</label>
-	<input type="password" name="password" id="password" required>
-	<input type="submit" value="Register">
+<form method="post" class="grid">
+	<label for="password">Set Password</label>
+	<input type="password" name="password" id="password" minlength="6" placeholder="6+ characters" required>
+	<label for="confirm">Confirm Password </label>
+	<input type="password" name="password" minlength="6" oninput="checkPass(this)" required>
+	<input id="submit" type="submit" class="button" value="Register">
 </form>
 {% endblock %}

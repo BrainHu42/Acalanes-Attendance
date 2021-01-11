@@ -1,13 +1,27 @@
 {% extends 'base.html' %}
 
 {% block header %}
-<h1>{% block title %}Settings{% endblock %}</h1>
+<h1>{% block title %}Upload Roster{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
-<form method="POST" enctype="multipart/form-data">
-    <label for="file">Upload Class Roster</label>
-    <p><input type="file" name="upload-file" accept=".xlsx" required></p>
-    <input type="submit" value="Upload">
+<form method="POST" enctype="multipart/form-data" id="center">
+  <p><input type="file" name="upload-file" accept=".xlsx" required></p>
+  <p>Only accepts .xlsx files.</p>
+  <input type="submit" class="button "value="Upload file"><a style="margin-left: 5px;" class="button" href="{{ url_for('account.details') }}">Back to home</a>
 </form>
+<br /><br />
+<h3 id="rosterUpload">Uploading Your Roster</h3>
+<div class="shrink">
+  <p>In order to determine who is absent from class, the system needs to know who is supposed to be there.</p>
+  <p>Click on <a href="{{ url_for('account.settings') }}">this link</a> to reach the upload roster page.  This page can also be reached through the links at the bottom of the page.</p>
+  <ol>
+    <li>Navigate to <a target="_blank" href="https://pass.acalanes.k12.ca.us/Teacher/Login.aspx">Aeries</a></li>
+    <li>On the left panel of the of the homepage, click on reports and then class roster.</li>
+    <p class="img"><img src="{{ url_for('static', filename='rosterLocation.png') }}" width="400" alt="image not found"></p>
+    <li>Configure the report to contain the following settings.  Make sure to uncheck all boxes on the right.  This step is important because the program will not function if the sheet is formatted incorrectly.</li>
+    <p class="img"><img src="{{ url_for('static', filename='rosterSettings.png') }}" width="400" alt="Report Format = XLSX, Specific term code = 1, Sort with Teacher/Period, Uncheck all boxes on the right, Click Run Report at the bottom"></p>
+    <li>Download the report and upload the file to Automatic Attendance Taker. Make sure to bookmark this website for easy access. Now you can start using the app!</li>
+  </ol>
+</div>
 {% endblock %}
