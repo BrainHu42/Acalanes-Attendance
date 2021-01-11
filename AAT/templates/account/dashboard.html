@@ -1,16 +1,17 @@
 {% extends 'base.html' %}
 
 {% block header %}
-<h1 id="period">Attendance for Period {{ period }}</h1>
+<h1>Attendance for Period {{ period }}</h1>
 {% if not startTime == 0 %}
-	<h3>No active meeting</h3>
+	<h3 style="margin: 3px; font-size: 18px;">No active meeting</h3>
 {% endif %}
 {% endblock %}
 
 {% block content %}
-<div id="classData">
-	<div>
-		<p style="text-align: center; margin: 20px auto 0 auto;">{{ numPresent }} People Currently Present <a style="margin-left: 5px;" href="{{ url_for('account.roster') }}">View All Meeting Attendees</a></p>
+	<div class="content">
+		{% if startTime == 0 %}
+			<p style="text-align: center; margin: 0; line-height: 30px;">{{ numPresent }} people currently present <a style="margin-left: 5px;" class="link" href="{{ url_for('account.roster') }}">View all meeting attendees</a></p>
+		{% endif %}
 		<p style="font-size: 12px; text-align: center;"><span id="refresh" class="button" style="font-size: 10px; padding: 5px 12px; position: relative; bottom: 1px;">Refresh Now</span> Last update at <span id="date">N/A</span><a class="button" style="margin-left: 5px; font-size: 10px; padding: 5px 12px; position: relative; bottom: 1px;" href="{{ url_for('account.history') }}">History</a></p>
 		<div id="absentGrid">
 			<div id="absent">
@@ -26,36 +27,37 @@
 				{% endfor %}
 			</div>
 		</div>
+		<br />
 	</div>
-	<br />
-	<div>
-		<h3 style="margin-bottom: 0;">Unexpected Attendees</h3>
-		<h5 style="margin-top: 2px;">Are these people in this class?</h5>
+	<div class="content">
+		<h3 style="margin: 0;">Unexpected Attendees</h3>
+		<h5 style="margin-top: 2px;">Are the following people in this class?</h5>
 		{% if not startTime == 0 %}
-			<h5 style="margin: 2px;">Period {{ period }} has already ended.<br />Strangers can no longer be admitted nor denied.</h5>
+			<h5 style="margin-bottom: 5px;">Period {{ period }} has already ended.<br />Strangers can no longer be admitted nor denied.</h5>
 		{% endif %}
 		<div id="strangerArea">
 		{% for unknown in stranger %}
 			<p>{{ unknown[3] }}
-				<a style="background-color: #cf504c; border-radius: 8px; color: white; float: right; margin: 2px; font-size: 10px; padding: 8px 12px; text-decoration: none; position: relative; bottom: 6px;" href="{{ url_for('account.reject', userID=unknown[0]) }}">Deny</a>
-				<a style="background-color: #5cab6c; border-radius: 8px; color: white; float: right; margin: 2px; font-size: 10px; padding: 8px 12px; text-decoration: none; position: relative; bottom: 6px;" href="{{ url_for('account.admit', userID=unknown[0]) }}">Confirm</a>
+				<a style="background-color: #cf504c; border-radius: 8px; color: white; float: right; margin: 2px; font-size: 10px; padding: 8px 18px; text-decoration: none; position: relative; bottom: 6px;" href="{{ url_for('account.reject', userID=unknown[0]) }}">No</a>
+				<a style="background-color: #5cab6c; border-radius: 8px; color: white; float: right; margin: 2px; font-size: 10px; padding: 8px 18px; text-decoration: none; position: relative; bottom: 6px;" href="{{ url_for('account.admit', userID=unknown[0]) }}">Yes</a>
 			</p>
 		{% endfor %}
 		</div>
 	</div>
-	<br />
-	<br />
-	<form method="POST" class="center">
-		<h3 style="margin: 0;">Custom Tardy Time</h3>
-		<h5 style="margin-top: 0; margin-bottom: 12px;">How many minutes until tardy?</h5>
-		<p style="margin: 0px;"><input type="text" onkeypress="return(event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" name="tardy" id="tardy" maxlength="2" placeholder="{{ tardyTime }}" style="width: 32px;"> min</p>
-		<p style="margin: 12px;"><input type="submit" class="button" style="font-size: 12px; padding: 7px 14px;" value="Change"></p>
-	</form>
-	<form id="reminder" class="center">
-		<h3 style="margin-bottom: 0;">Enable Attendance Reminders</h3>
-		<h5 style="margin-top: 0; margin-bottom: 10px;">Reminder to log data in Aeries when tardy time is reached.</h5>
-		<p style="margin: 3px;"><input type="checkbox" id="remindInput"> Remind me</p>
-		<p style="margin: 12px;"><input type="submit" class="button" style="font-size: 12px; padding: 7px 14px;" value="Update"></p>
-	</form>
-</div>
+	<div class="content">
+		<form method="POST" class="center">
+			<h3 style="margin: 0;">Custom Tardy Time</h3>
+			<h5 style="margin-top: 0; margin-bottom: 12px;">How many minutes until tardy?</h5>
+			<p style="margin: 0px;"><input type="text" onkeypress="return(event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" name="tardy" id="tardy" maxlength="2" placeholder="{{ tardyTime }}" style="width: 32px;"> min</p>
+			<p style="margin: 12px;"><input type="submit" class="button" style="font-size: 12px; padding: 7px 14px;" value="Change"></p>
+		</form>
+	</div>
+	<div class="content">
+		<form id="reminder" class="center">
+			<h3 style="margin: 0;">Enable Attendance Reminders</h3>
+			<h5 style="margin-top: 0; margin-bottom: 10px;">Reminder to log data in Aeries when tardy time is reached.</h5>
+			<p style="margin: 3px;"><input type="checkbox" id="remindInput"> Remind me</p>
+			<p style="margin: 12px;"><input type="submit" class="button" style="font-size: 12px; padding: 7px 14px;" value="Update"></p>
+		</form>
+	</div>
 {% endblock %}

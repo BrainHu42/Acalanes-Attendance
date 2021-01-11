@@ -5,32 +5,34 @@
 {% endblock %}
 
 {% block content %}
-<div id="classData">
   {% for i in absentList %}
-  <h2 id="period">Attendance for Period {{  i[3][-1:] }}</h2>
-  <div>
-		<div id="absentGrid">
-			<div id="absent">
-				<h3>Absent</h3>
-				{% for student in i[0] %}
-					<p>{{ student }}</p>
-				{% endfor %}
-			</div>
-			<div id="tardy">
-				<h3>Tardy</h3>
-				{% for student in i[1] %}
-					<p>{{ student }}</p>
-				{% endfor %}
-			</div>
-		</div>
-    <div style="margin: auto">
-      <h3>Uninvited Attendees</h3>
-      {% for student in i[2] %}
-        <p style="margin: auto;">{{ student }}</p>
-      {% endfor %}
-    </div>
-	</div>
+  <div class="content">
+    <h2 id="period" style="margin: 0;">Attendance for Period {{  i[3][-1:] }}</h2>
+    <div>
+  		<div id="absentGrid">
+  			<div id="absent">
+  				<h3>Absent</h3>
+  				{% for student in i[0] %}
+  					<p>{{ student }}</p>
+  				{% endfor %}
+  			</div>
+  			<div id="tardy">
+  				<h3>Tardy</h3>
+  				{% for student in i[1] %}
+  					<p>{{ student }}</p>
+  				{% endfor %}
+  			</div>
+  		</div>
+      <div style="margin: auto">
+        <h3>Uninvited Attendees</h3>
+        {% for student in i[2] %}
+          <p style="margin: auto; text-align: center;">{{ student }}</p>
+        {% endfor %}
+      </div>
+  	</div>
+  </div>
   {% endfor %}
-  <p style="text-align: center;"><a class="button" href="{{ url_for('account.details') }}">Back</a></p>
-</div>
+  <div class="content">
+    <p style="text-align: center;"><a class="button" href="{{ url_for('account.details') }}">Back</a></p>
+  </div>
 {% endblock %}

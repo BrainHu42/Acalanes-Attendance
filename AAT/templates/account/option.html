@@ -5,13 +5,15 @@
 {% endblock %}
 
 {% block content %}
-<form method='POST' id="center">
-  {% for student in students %}
-    <div class="studentName">
-      <input type='radio' value='{{ student[0] }}' name='student' />
-      <label>{{student[0]}}</label>
-    </div>
-  {% endfor %}
-  <input class="button" type="submit" value="Remember" />
-</form>
+<div class="content">
+  <form method='POST' id="center">
+    {% for student in students %}
+      <div class="studentName">
+        <input type='radio' value='{{ student[0] }}' name='student' />
+        <label>{{student[0]}}</label>
+      </div>
+    {% endfor %}
+    <input class="button" type="submit" value="Remember" style="margin-top: 10px;" />
+  </form>
+</div>
 {% endblock %}

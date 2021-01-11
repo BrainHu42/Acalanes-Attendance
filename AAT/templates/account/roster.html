@@ -1,18 +1,17 @@
 {% extends 'base.html' %}
 
 {% block header %}
-<h1 id="period">Period {{ period }} Attendees</h1>
+<h1>Period {{ period }} Attendees</h1>
 {% endblock %}
 
 {% block content %}
-<div id="classData">
-	<p style="text-align: center; font-size: 12px;"><span id="refresh" class="button" style="font-size: 10px; padding: 5px 12px; position: relative; bottom: 1px;">Refresh</span> Last update at <span id="date">N/A</span></p>
-  <h2>Students Present</h2>
+<div class="content">
+	<p style="text-align: center; font-size: 12px; margin-bottom: 20px;"><span id="refresh" class="button" style="font-size: 10px; padding: 5px 12px; position: relative; bottom: 1px;">Refresh</span> Last update at <span id="date">N/A</span></p>
   <div id="present">
     {% for student in roster %}
       <p>{{ student[0] }}</p>
     {% endfor %}
   </div>
-  <p style="text-align: center; margin: 15px 0;"><a class="button" href="{{ url_for('account.details') }}">Back</a></p>
+  <p style="text-align: center; margin: 15px 0;"><a class="button" href="{{ url_for('account', filename='dashboard.html') }}">Back</a></p>
 </div>
 {% endblock %}

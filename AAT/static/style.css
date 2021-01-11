@@ -3,25 +3,26 @@ body {
   background-color: white;
   min-width: 350px;
   font-size: 16px;
-  font-family: Georgia, Helvetica, Arial;
+  font-family: Arial, Helvetica, Georgia;
 }
 header h1 {
-  font-size: 25px;
-  margin: 15px;
+  margin: 0;
+  float: none;
+  font-size: 22px;
+  text-align: center;
 }
 h1, h5, h3, h2 {
-  font-family: Serif, Sans-Serif;
-  text-align: center;
   color: #12185d;
+  text-align: center;
 }
 footer {
   background-color: white;
   color: black;
-  padding: 16px;
-  text-align: center;
-  margin: auto;
+  padding: 20px;
   max-width: 300px;
   width: 60%;
+  text-align: center;
+  margin: auto !important;
   display: grid;
   grid-template-rows: 1fr;
 }
@@ -35,13 +36,13 @@ footer p *:nth-child(even) {
   grid-column: 2 / 3;
   grid-row: 1 / 2;
 }
-footer a {
+footer a, .link {
   text-decoration: none;
-  color: #12185d;
-  font-size: 18px;
+  color: #377ba8;
+  font-size: 16px;
 }
-footer a:hover {
-  filter: brightness(85%);
+footer a:hover, .link:hover  {
+  text-decoration: underline;
 }
 a {
   color: #377ba8;
@@ -55,17 +56,16 @@ nav {
   opacity: 98%;
 }
 nav h1 {
-  font-size: 25px;
+  font-size: 20px;
+  vertical-align: middle;
+  margin: 0;
+  padding: 0;
 }
 nav ul li {
   display: inline;
 }
 nav ul li a, nav ul li span, header .action {
   padding: 8px;
-}
-nav h1 {
-  margin: 0;
-  padding: 0;
 }
 nav img {
   padding-left: 5px;
@@ -106,21 +106,18 @@ iframe {
 }
 .button {
   border-radius: 8px;
-  font-family: Georgia;
   text-decoration: none;
   font-size: 14px;
   padding: 7px 21px;
   color: white;
   margin: 0;
   border: 0;
-  background-color: #12185d;
-  border: 1px solid #12185d;
+  background-color: #141d80;
+  border: 1px solid #141d80;
 }
 .button:hover {
-  background-color: #21246c;
-  border: 1px solid #12185d;
+  filter: brightness(90%);
   cursor: pointer;
-  color: #ccc;
 }
 .button:active {
   background-color: #21246c;
@@ -178,27 +175,26 @@ iframe {
   margin: 0;
   background-color: #12185d;
 }
-#content {
-  padding: 0 16px 16px;
-  min-height: 200px;
+.content {
+  width: 80%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin: 10px auto;
+  padding: 30px 20px;
+  border-radius: 2px;
   background-color: #ede4dd;
 }
-#content header {
-  padding-top: 1px;
+header.content {
+  margin-top: 0;
+  padding: 20px;
 }
-#flash {
+#flash.content {
+  padding: 20px;
   text-align: center;
   color: black;
-  padding: 10px;
   background-color: #cae6f6;
-  border: 1px solid #377ba8;
-  margin-bottom: 20px;
 }
 #flash p {
   margin: 0;
-}
-#classData {
-  margin: 5px 5px 20px 0;
 }
 #absentGrid {
   display: grid;
@@ -239,16 +235,13 @@ iframe {
 }
 #login > a, #logout > a {
   border-radius: 8px;
+  text-decoration: none;
   margin: 0;
-  background-color: #12185d;
+  background-color: #141d80;
+  color: white;
 }
 #login > a:hover, #logout > a:hover {
-  background-color: #21246c;
-  color: #ccc;
-}
-#login > a, #logout > a {
-  text-decoration: none;
-  color: gainsboro;
+  filter: brightness(90%);
 }
 #create {
   text-align: center;
@@ -294,6 +287,7 @@ iframe {
   nav h1 {
     grid-column: 1 / 2;
     grid-row: 2 / 3;
+    font-family: Arial, Helvetica;
   }
   nav h1 {
     padding-top: 5px;
@@ -311,6 +305,7 @@ iframe {
   }
   footer {
     grid-template-columns: 1fr 1fr;
+    margin: 0;
   }
   .grid > input:not(#submit){
     width: 150px;
@@ -322,6 +317,9 @@ iframe {
     padding: 4px 12px;
     font-size: 10px;
     float: right;
+  }
+  #greeting {
+    display: none;
   }
 }
 @media screen and (min-width: 751px) {
@@ -345,7 +343,7 @@ iframe {
     float: right;
   }
   nav h1 {
-    padding-top: 10px;
+    padding-top: 13px;
   }
   footer {
     grid-template-columns: 7fr 5fr;
@@ -357,10 +355,6 @@ iframe {
   .grid > input:not(#submit){
     width: 175px;
   }
-  #content {
-    margin-left: 5%;
-    margin-right: 5%;
-  }
   #container {
     padding: 20px 10px;
   }
@@ -370,4 +364,20 @@ iframe {
   #login, #logout {
     min-width: 69px;
   }
+}
+#pagecontent {
+  background-color: #cae6f6;
+  border: 2px solid #377ba8;
+  padding: 15px;
+  margin: auto;
+}
+#pagecontent a {
+  text-decoration: none;
+  color: black;
+}
+#pagecontent a:hover {
+  text-decoration: underline;
+}
+#pagecontent tr {
+  line-height: 20px;
 }

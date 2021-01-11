@@ -2,81 +2,86 @@
 
 {% block header %}
 <h1>Manual</h1>
-<h3>Automatic Attendance Taker -  Version 1.3.1</h3>
-<p style="text-align: center;"><a href="https://zoom.us/oauth/authorize?response_type=code&client_id=9fw3_isjQ2qsfGQqIFSwag&redirect_uri=https://acalanesattendance.herokuapp.com/auth/register" target="_blank" rel="noopener noreferrer"><img src="https://marketplacecontent.zoom.us/zoom_marketplace/img/add_to_zoom.png" height="32" alt="Add to ZOOM" /></a></p>
+<h3 style="margin-top: 10px;">Automatic Attendance Taker v1.5.0</h3>
+<p style="text-align: center; margin: 0;"><a href="https://zoom.us/oauth/authorize?response_type=code&client_id=9fw3_isjQ2qsfGQqIFSwag&redirect_uri=https://acalanesattendance.herokuapp.com/auth/register" target="_blank" rel="noopener noreferrer"><img src="https://marketplacecontent.zoom.us/zoom_marketplace/img/add_to_zoom.png" height="32" alt="Add to ZOOM" /></a></p>
 {% endblock %}
 
 {% block content %}
-<h3>Why Automatic Attendance Taker?</h3>
-<table id="reasonsWhy">
-  <tr>
-    <th>Fast</th>
-    <th>Accurate</th>
-    <th>Efficient</th>
-  </tr>
-  <tr>
-    <td>Install and set up the app in less than 5 minutes.</td>
-    <td>Accurately captures live attendance data from Zoom and displays it in an easy-to-read format.</td>
-    <td>Quickly displays attendance data, saving a lot of busy work.</td>
-  </tr>
-</table>
-<h3>Requirements</h3>
-<div class="shrink">
-  <ul>
-    <li>Class roster needs to be uploaded.</li>
-    <li>Waiting Room must be enabled throughout the meeting</li>
-    <li>Meetings must be started no more than 15 minutes prior to the beginning of class.</li>
-    <li>End the meeting when class ends and/or before your next class</li>
-    <li><strong>Read the section on uninvited attendees below</strong></li>
-  </ul>
+<div class="content">
+  <h3 style="margin-top: 0;">Page contents</h3>
+  <table id="pagecontent">
+    <tr><td><a href="{{ url_for('zoomAPI.index') }}#why">Why Automatic Attendance Taker?</a></td></tr>
+    <tr><td><a href="{{ url_for('zoomAPI.index') }}#req">Requirements</a></td></tr>
+    <tr><td><a href="{{ url_for('zoomAPI.index') }}#inst">Installation</a></td></tr>
+    <tr><td><a href="{{ url_for('zoomAPI.index') }}#rosterUpload">Uploading Your Roster</a></td></tr>
+    <tr><td><a href="{{ url_for('zoomAPI.index') }}#strangerDanger">Uninvited Attendees</a></td></tr>
+    <tr><td><a href="{{ url_for('zoomAPI.index') }}#uninstall">Uninstallation</a></td></tr>
+  </table>
 </div>
-<br />
-<h2>Installation</h2>
-<div class="shrink">
-  <ol>
-    <li>Click <a target="_blank" href="https://zoom.us/oauth/authorize?response_type=code&client_id=9fw3_isjQ2qsfGQqIFSwag&redirect_uri=https://acalanesattendance.herokuapp.com/auth/register">here</a> to download the app</li>
-    <li>A screen from Zoom will appear prompting you to authorize the app.
-      <p>This will allow the app to</p>
-      <ul>
-        <li>View meetings to determine the students who are currently present</li>
-        <li>View user profile to verify identity and ensure that only teachers can install</li>
-      </ul>
-    </li>
-    <p class="img"><img src="{{ url_for('static', filename='zoomAuth.png') }}" width="400" alt="image not found"></p>
-    <li>Upon confimation, you will be prompted to register an account
-    <p>All that's necessary is to enter a password.</p>
-    <p>Your login is automatically your district email.</p></li>
-    <p class="img"><img class="deny" src="{{ url_for('static', filename='login.png') }}" width="400" alt="image not found" style="border: 5px solid #12185d;"></p>
-    <li>Now you have to upload your roster.</li>
-  </ol>
+<div class="content">
+  <h3 style="margin-top: 0;" id="why">Why Automatic Attendance Taker?</h3>
+  <table id="reasonsWhy">
+    <tr>
+      <th>Easy Setup</th>
+      <th>Accurate</th>
+      <th>Efficient</th>
+    </tr>
+    <tr>
+      <td>Install and set up the app in less than 5 minutes.</td>
+      <td>Accurately captures live attendance data from Zoom and displays it in an easy-to-read format.</td>
+      <td>Quickly displays attendance data, saving a lot of busy work.</td>
+    </tr>
+  </table>
 </div>
-<h3 id="rosterUpload">Uploading Your Roster</h3>
-<div class="shrink">
-  <p>In order to determine who is absent from class, the system needs to know who is supposed to be there.</p>
-  <p>Click on <a href="{{ url_for('account.settings') }}">this link</a> to reach the upload roster page.  This page can also be reached through the links at the bottom of the page.</p>
-  <ol>
-    <li>Navigate to <a target="_blank" href="https://pass.acalanes.k12.ca.us/Teacher/Login.aspx">Aeries</a></li>
-    <li>On the left panel of the of the homepage, click on reports and then class roster.</li>
-    <p class="img"><img src="{{ url_for('static', filename='rosterLocation.png') }}" width="400" alt="image not found"></p>
-    <li>Configure the report to contain the following settings. Report Format = XLSX, Specific term code = 3, Sort with Teacher/Period, Uncheck all boxes on the right.</li>
-    <p>Note: The program might not function if the sheet is formatted incorrectly.</p>
-    <p class="img"><img src="{{ url_for('static', filename='rosterSettings.png') }}" width="400" alt="Report Format = XLSX, Specific term code = 1, Sort with Teacher/Period, Uncheck all boxes on the right, Click Run Report at the bottom"></p>
-    <li>Download the report and upload the file to Automatic Attendance Taker. Make sure to bookmark this website for easy access. Now you can start using the app!</li>
-  </ol>
-</div>
-<div class="shrink">
-  <h2 id="uninstall">Uninstallation</h2>
-  <ol>
-    <li>Login to your Zoom Account and navigate to the Zoom App Marketplace or click on this <a target="_blank" href="https://marketplace.zoom.us/">link</a></li>
-    <li>Click Manage and then Installed Apps</li>
-    <li>Next to Acalanes Attendance, click on the Uninstall button</li>
-    <li>Upon uninstallation, all data associated with your account will be deleted</li>
-  </ol>
-</div>
-<br />
-<div class="shrink">
-<h2 id="strangerDanger">Uninvited Attendees</h2>
+<div class="content">
+  <h3 style="margin-top: 0;" id="req">Requirements</h3>
   <div class="shrink">
+    <ul>
+      <li>A roster must be uploaded.</li>
+      <li>Meetings must be started no more than 15 minutes prior to the beginning of class.</li>
+      <li><strong>Read the section on <a href="{{ url_for('zoomAPI.index') }}#strangerDanger">uninvited attendees</a> below</strong></li>
+    </ul>
+  </div>
+</div>
+<div class="content">
+  <h3 style="margin-top: 0;" id="inst">Installation</h3>
+  <div class="shrink">
+    <ol>
+      <li>Click <a target="_blank" href="https://zoom.us/oauth/authorize?response_type=code&client_id=9fw3_isjQ2qsfGQqIFSwag&redirect_uri=https://acalanesattendance.herokuapp.com/auth/register">here</a> to download the app</li>
+      <li>A screen from Zoom will appear prompting you to authorize the app.
+        <p>This will allow the app to</p>
+        <ul>
+          <li>View meetings to determine the students who are currently present</li>
+          <li>View user profile to verify identity and ensure that only teachers can install</li>
+        </ul>
+      </li>
+      <p class="img"><img src="{{ url_for('static', filename='zoomAuth.png') }}" width="400" alt="image not found"></p>
+      <li>Upon confimation, you will be prompted to register an account
+      <p>All that's necessary is to enter a password.</p>
+      <p>Your login is automatically your district email.</p></li>
+      <p class="img"><img class="deny" src="{{ url_for('static', filename='login.png') }}" width="400" alt="image not found"></p>
+      <li>Now you have to upload your roster.</li>
+    </ol>
+  </div>
+</div>
+<div class="content">
+  <h3 id="rosterUpload" style="margin-top: 0;" >Uploading Your Roster</h3>
+  <div class="shrink">
+    <p>In order to determine who is absent from class, the system needs to know who is supposed to be there.</p>
+    <p>Navigate to <a href="{{ url_for('account.settings') }}">this link</a> to reach the upload roster page.  This page can also be reached through the links at the bottom of the page.</p>
+    <ol>
+      <li>Go to <a target="_blank" href="https://pass.acalanes.k12.ca.us/Teacher/Login.aspx">Aeries</a></li>
+      <li>On the left panel of the of the homepage, click on reports and then class roster.</li>
+      <p class="img"><img src="{{ url_for('static', filename='rosterLocation.png') }}" width="400" alt="image not found"></p>
+      <li>Configure the report to contain the following settings.  If it is the first semester, the term code should be 1.  If it is the second semester, use term code 3.  Make sure to uncheck all boxes on the right.  This step is important because the program will not function if the sheet is formatted incorrectly.</li>
+      <p class="img"><img src="{{ url_for('static', filename='rosterSettings.png') }}" width="400" alt="Report Format = XLSX, Specific term code = 1, Sort with Teacher/Period, Uncheck all boxes on the right, Click Run Report at the bottom"></p>
+      <li>After downloading the report and uploading the file to Automatic Attendance Taker, the process is complete.  Now you can start using the app!</li>
+    </ol>
+  </div>
+</div>
+<div class="content">
+  <div class="shrink">
+    <h3 id="strangerDanger" style="margin-top: 0;">Uninvited Attendees</h3>
     <p>Unrecognized names or students with a Zoom username different from their name on Aeries will appear under the uninvited attendees section.</p>
     <p class="img"><img src="{{ url_for('static', filename='confirmation.png') }}" width="400" alt="image not found" style="border: 5px solid #12185d;"></p>
     <p>If this person is a student in your class, click confirm and select the correct name of the student if prompted. Click Deny if otherwise.</p>
@@ -84,6 +89,17 @@
     <p class="img"><img src="{{ url_for('static', filename='option.png') }}" width="400" alt="image not found" style="border: 5px solid #12185d;"></p>
     <p>Once a student has been confirmed during 3 different meetings, the system will remember the student for all subsequent classes.</p>
     <p>Note: If a class has already ended, any unconfirmed students will show up as uninvited without the option to confirm.</p>
+  </div>
+</div>
+<div class="content">
+  <div class="shrink">
+    <h3 id="uninstall" style="margin-top: 0;">Uninstallation</h3>
+    <ol>
+      <li>Login to your Zoom Account and navigate to the Zoom App Marketplace (or click on this <a target="_blank" href="https://marketplace.zoom.us/">link</a>).</li>
+      <li>Click Manage and then Installed Apps.</li>
+      <li>Next to Acalanes Attendance, click the uninstall button.</li>
+      <li>Upon uninstallation, all data associated with your account will be deleted.</li>
+    </ol>
   </div>
 </div>
 {% endblock %}

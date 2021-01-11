@@ -2,13 +2,402 @@
 
 <html lang="en-US">
   <head>
-    <title>Automatic Attendance - v1.3.1</title>
+    <title>Automatic Attendance v1.4.0</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta author="Zachary Hoffman (front-end), Brian Hu (back-end)" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{{ url_for('static', filename='main.js') }}"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <style>
+      body {
+        margin: auto;
+        background-color: white;
+        min-width: 350px;
+        font-size: 16px;
+        font-family: Arial, Helvetica, Georgia;
+      }
+      header h1 {
+        margin: 0;
+        float: none;
+        font-size: 22px;
+        text-align: center;
+      }
+      h1, h5, h3, h2 {
+        color: #12185d;
+        text-align: center;
+      }
+      nav h1 {
+        font-family: Serif, Sans-serif;
+      }
+      footer {
+        background-color: white;
+        color: black;
+        padding: 20px;
+        max-width: 300px;
+        width: 60%;
+        text-align: center;
+        margin: auto !important;
+        display: grid;
+        grid-template-rows: 1fr;
+      }
+      footer p *:nth-child(odd) {
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+        position: relative;
+        right: 5px;
+      }
+      footer p *:nth-child(even) {
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+      }
+      footer a {
+        text-decoration: none;
+        color: #377ba8;
+        font-size: 16px;
+      }
+      footer a:hover {
+        text-decoration: underline;
+      }
+      a {
+        color: #377ba8;
+      }
+      nav {
+        background: #fffdfa;
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        opacity: 98%;
+      }
+      nav h1 {
+        font-size: 23px;
+      }
+      nav ul li {
+        display: inline;
+      }
+      nav ul li a, nav ul li span, header .action {
+        padding: 8px;
+      }
+      nav h1 {
+        margin: 0;
+        padding: 0;
+      }
+      nav img {
+        padding-left: 5px;
+      }
+      nav ul {
+        padding: 0;
+      }
+      li p {
+        margin: 8px;
+      }
+      li {
+        margin-bottom: 12px;
+      }
+      form[method="post"] {
+        max-width: 500px;
+      }
+      input[name="emailSet"]:focus {
+        background-color: #eee;
+        outline-color: crimson;
+        cursor: not-allowed;
+      }
+      input[name="emailSet"] {
+        background-color: #eee;
+        outline: auto;
+        outline-color: darkred;
+      }
+      iframe {
+        border: 0;
+        padding: 0;
+        margin: auto;
+      }
+      .deny:active {
+        border: 2px solid darkred;
+        border-radius: 5px;
+      }
+      .deny {
+        border: 2px solid transparent;
+      }
+      .button {
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 14px;
+        padding: 7px 21px;
+        color: white;
+        margin: 0;
+        border: 0;
+        background-color: #141d80;
+        border: 1px solid #141d80;
+      }
+      .button:hover {
+        filter: brightness(90%);
+        cursor: pointer;
+      }
+      .button:active {
+        background-color: #21246c;
+        cursor: pointer;
+        color: #ccc;
+        border: 1px solid gray;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        position: relative;
+        right: 2%;
+      }
+      .grid > label {
+        grid-column: 1 / 2;
+        text-align: right;
+      }
+      .grid > input:not(#submit){
+        grid-column: 2 / 3;
+        margin: auto;
+        margin-bottom: 5px;
+      }
+      .grid #submit {
+        position: relative;
+        left: 8%;
+      }
+      .center {
+        text-align: center;
+        margin: auto;
+        grid-column: 1 / 3 !important;
+      }
+      .shrink {
+        margin: auto;
+        max-width: 700px;
+      }
+      .img {
+        text-align: center;
+      }
+      .studentName {
+        margin: auto;
+        width: 200px;
+        display: grid;
+        grid-template-columns: 1fr 5fr;
+        grid-template-rows: 1fr;
+      }
+      .studentName label {
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+      }
+      .studentName:not(label) {
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+      }
+      #container {
+        margin: 0;
+        background-color: #12185d;
+      }
+      .content {
+        width: 80%;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        margin: 10px auto;
+        padding: 30px 20px;
+        border-radius: 2px;
+        background-color: #ede4dd;
+      }
+      header.content {
+        margin-top: 0;
+        padding: 20px;
+      }
+      #flash.content {
+        padding: 20px;
+        text-align: center;
+        color: black;
+        background-color: #cae6f6;
+      }
+      #flash p {
+        margin: 0;
+      }
+      #absentGrid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        max-width: 500px;
+        margin: auto;
+      }
+      #absentGrid #absent {
+        grid-column: 1 / 2;
+        text-align: center;
+        margin: 2px;
+      }
+      #absentGrid #tardy {
+        grid-column: 2 / 3;
+        text-align: center;
+        margin: 2px;
+      }
+      #strangerArea {
+        max-width: 400px;
+        margin: auto;
+      }
+      #strangerArea a:hover {
+        filter: brightness(93%);
+      }
+      #center {
+        margin: auto;
+        text-align: center;
+      }
+      #center input[type="file"] {
+        position: relative;
+        left: 30px;
+        margin: auto;
+      }
+      #submit {
+        grid-column: 1 / 3;
+        width: 100px;
+        margin: 10px auto auto auto;
+      }
+      #login > a, #logout > a {
+        border-radius: 8px;
+        text-decoration: none;
+        margin: 0;
+        background-color: #141d80;
+        color: white;
+      }
+      #login > a:hover, #logout > a:hover {
+        filter: brightness(90%);
+      }
+      #create {
+        text-align: center;
+      }
+      #present {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        max-width: 500px;
+        margin: auto;
+      }
+      #present > *:nth-child(odd) {
+        grid-column: 1 / 2;
+        margin: 2px;
+        text-align: center;
+      }
+      #present > *:nth-child(even) {
+        grid-column: 2 / 3;
+        margin: 2px;
+        text-align: center;
+      }
+      #reasonsWhy {
+        background-color: #cae6f6;
+        margin: auto;
+        border-collapse: collapse;
+      }
+      #reasonsWhy th, #reasonsWhy td {
+        border: 2px solid #377ba8;
+        vertical-align: top;
+      }
+      #reasonsWhy th, #reasonsWhy td {
+        padding: 4px 8px;
+        max-width: 150px;
+      }
+      @media screen and (max-width: 750px) {
+        nav {
+          display: grid !important;
+          grid-template-rows: auto auto;
+          grid-template-columns: auto;
+          text-align: center;
+          display: inline-block;
+          width: 100%;
+        }
+        nav h1 {
+          grid-column: 1 / 2;
+          grid-row: 2 / 3;
+          font-family: Arial Helvetica;
+        }
+        nav h1 {
+          padding-top: 5px;
+          padding-bottom: 5px;
+        }
+        nav ul {
+          grid-row: 1 / 2;
+          grid-column: 1 / 2;
+          margin: 0;
+          padding: 2px 3px 2px 0;
+          border-bottom: 1px solid #eee;
+        }
+        nav img {
+          display: none;
+        }
+        footer {
+          grid-template-columns: 1fr 1fr;
+          margin: 0;
+        }
+        .grid > input:not(#submit){
+          width: 150px;
+        }
+        #container {
+          padding: 20px 0;
+        }
+        #login > a, #logout > a {
+          padding: 4px 12px;
+          font-size: 10px;
+          float: right;
+        }
+        #greeting {
+          display: none;
+        }
+      }
+      @media screen and (min-width: 751px) {
+        nav {
+          padding: 5px;
+        }
+        nav div {
+          width: 275px;
+          margin: auto;
+          height: 50px;
+        }
+        nav img {
+          float: left;
+          display: block;
+        }
+        nav > *:not(ul){
+          text-align: center;
+        }
+        nav ul  {
+          padding-right: 8px;
+          float: right;
+        }
+        nav h1 {
+          padding-top: 10px;
+        }
+        footer {
+          grid-template-columns: 7fr 5fr;
+        }
+        .grid {
+          width: 70%;
+          margin: auto;
+        }
+        .grid > input:not(#submit){
+          width: 175px;
+        }
+        #container {
+          padding: 20px 10px;
+        }
+        #login > a, #logout > a {
+          font-size: 15px;
+        }
+        #login, #logout {
+          min-width: 69px;
+        }
+      }
+      #pagecontent {
+        background-color: #cae6f6;
+        border: 2px solid #377ba8;
+        padding: 15px;
+        margin: auto;
+      }
+      #pagecontent a {
+        text-decoration: none;
+        color: black;
+      }
+      #pagecontent a:hover {
+        text-decoration: underline;
+      }
+      #pagecontent tr {
+        line-height: 20px;
+      }
+
+    </style>
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='schoolLogo.png') }}" />
   </head>
   <body>
@@ -16,7 +405,7 @@
       <ul>
         {% if g.user %}
           {% if name %}
-            <li style="margin-right: 4px;font-size: 14px;">Hello <span style="padding: 0;">{{ name }}</span> </li>
+            <li style="margin-right: 4px;font-size: 14px;" id="greeting">Hello <span style="padding: 0;">{{ name }}</span> </li>
           {% endif %}
           <li id="logout"><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
           {% else %}
@@ -31,15 +420,13 @@
       </div>
     </nav>
     <div id="container">
-      <div id="content">
-        <header>
-          {% block header %}{% endblock %}
-        </header>
-        {% for message in get_flashed_messages() %}
-        <div id="flash"><p>{{ message }}</p></div>
-        {% endfor %}
-        {% block content %}{% endblock %}
-      </div>
+      <header class="content">
+        {% block header %}{% endblock %}
+      </header>
+      {% for message in get_flashed_messages() %}
+      <div id="flash" class="content"><p>{{ message }}</p></div>
+      {% endfor %}
+      {% block content %}{% endblock %}
       <script>
         if (document.getElementById("remindInput")) {
           cookie == "yes" ? $("#remindInput").prop("checked", true) : $("#remindInput").prop("checked", false);
@@ -101,7 +488,7 @@
             setTimeout(function() {
               element = document.getElementById("refresh");
               if (element) {
-                alert("Tardy time of " + time.toString() + " minutes reached.  Remember to update Aeries for period " + period.toString() + " now (if applicable)!");
+                alert("Tardy time of " + time.toString() + " minutes reached.  Remember to update Aeries for period " + period.toString() + " now!");
               }
             }, timeout);
           }
@@ -112,12 +499,11 @@
         }
 
         $("refresh").ready(function() {
-          tardyTime = parseInt({{ tardyTime }});
+          tardyTime = parseInt("{{ tardyTime }}");
           if (isNaN(tardyTime)) {
             tardyTime = null;
           }
-          period = parseInt({{ period }});
-          console.log({{ period }});
+          period = parseInt("{{ period }}");
           if (isNaN(period)) {
             period = null;
           }
@@ -140,7 +526,6 @@
           refreshAt(hour, 55, Math.floor(Math.random() * 30));
           refreshAt(hour + 1, 15, Math.floor(Math.random() * 30));
         }
-
 
         if (date.getDay() > 0 && date.getDay() < 6) {
           refreshAt(9, 0, Math.floor(Math.random() * 60));

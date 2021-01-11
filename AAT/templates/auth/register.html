@@ -5,11 +5,13 @@
 {% endblock %}
 
 {% block content %}
-<form method="post" class="grid">
-	<label for="password">Set Password</label>
-	<input type="password" name="password" id="password" minlength="6" placeholder="6+ characters" required>
-	<label for="confirm">Confirm Password </label>
-	<input type="password" name="password" minlength="6" oninput="checkPass(this)" required>
-	<input id="submit" type="submit" class="button" value="Register">
-</form>
+<div class="content">
+	<form method="post" class="grid">
+		<label for="password">Set password</label>
+		<input type="password" name="password" id="password" minlength="6" placeholder="6+ characters" required>
+		<label for="confirm">Confirm password </label>
+		<input type="password" name="password" minlength="6" oninput="checkPass(this)" required>
+		<input id="submit" type="submit" class="button" value="Register">
+	</form>
+</div>
 {% endblock %}
