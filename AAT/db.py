@@ -7,23 +7,23 @@ from flask.cli import with_appcontext
 
 def get_db():
     if 'db' not in g:
-        # g.db = psycopg2.connect(
-        #     database = 'test',
-        #     user = 'postgres',
-        #     password = 'password',
-        #     host = 'localhost',
-        # )
-        result = urlparse(current_app.config['DATABASE'])
-        username = result.username
-        password = result.password
-        database = result.path[1:]
-        hostname = result.hostname
         g.db = psycopg2.connect(
-            database = database,
-            user = username,
-            password = password,
-            host = hostname
+            database = 'test',
+            user = 'postgres',
+            password = 'password',
+            host = 'localhost',
         )
+        # result = urlparse(current_app.config['DATABASE'])
+        # username = result.username
+        # password = result.password
+        # database = result.path[1:]
+        # hostname = result.hostname
+        # g.db = psycopg2.connect(
+        #     database = database,
+        #     user = username,
+        #     password = password,
+        #     host = hostname
+        # )
         g.db.cursor().execute('SET timezone = %s;', ('America/Los_Angeles',))
 
     return g.db

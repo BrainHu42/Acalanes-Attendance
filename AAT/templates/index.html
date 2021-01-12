@@ -2,22 +2,20 @@
 
 {% block header %}
 <h1>Manual</h1>
-<h3 style="margin-top: 10px;">Automatic Attendance Taker v1.5.0</h3>
-<p style="text-align: center; margin: 0;"><a href="https://zoom.us/oauth/authorize?response_type=code&client_id=9fw3_isjQ2qsfGQqIFSwag&redirect_uri=https://acalanesattendance.herokuapp.com/auth/register" target="_blank" rel="noopener noreferrer"><img src="https://marketplacecontent.zoom.us/zoom_marketplace/img/add_to_zoom.png" height="32" alt="Add to ZOOM" /></a></p>
+<h3 style="margin-top: 10px;">Automatic Attendance Taker v1.4.0</h3>
+<p style="text-align: center; margin: 0 auto 20px;"><a href="https://zoom.us/oauth/authorize?response_type=code&client_id=9fw3_isjQ2qsfGQqIFSwag&redirect_uri=https://acalanesattendance.herokuapp.com/auth/register" target="_blank" rel="noopener noreferrer"><img src="https://marketplacecontent.zoom.us/zoom_marketplace/img/add_to_zoom.png" height="32" alt="Add to ZOOM" /></a></p>
+<h3 style="margin: 0;">Page contents</h3>
+<table id="pagecontent">
+  <tr><td><a href="{{ url_for('zoomAPI.index') }}#why">Why Automatic Attendance Taker?</a></td></tr>
+  <tr><td><a href="{{ url_for('zoomAPI.index') }}#req">Requirements</a></td></tr>
+  <tr><td><a href="{{ url_for('zoomAPI.index') }}#inst">Installation</a></td></tr>
+  <tr><td><a href="{{ url_for('zoomAPI.index') }}#rosterUpload">Uploading Your Roster</a></td></tr>
+  <tr><td><a href="{{ url_for('zoomAPI.index') }}#strangerDanger">Uninvited Attendees</a></td></tr>
+  <tr><td><a href="{{ url_for('zoomAPI.index') }}#uninstall">Uninstallation</a></td></tr>
+</table>
 {% endblock %}
 
 {% block content %}
-<div class="content">
-  <h3 style="margin-top: 0;">Page contents</h3>
-  <table id="pagecontent">
-    <tr><td><a href="{{ url_for('zoomAPI.index') }}#why">Why Automatic Attendance Taker?</a></td></tr>
-    <tr><td><a href="{{ url_for('zoomAPI.index') }}#req">Requirements</a></td></tr>
-    <tr><td><a href="{{ url_for('zoomAPI.index') }}#inst">Installation</a></td></tr>
-    <tr><td><a href="{{ url_for('zoomAPI.index') }}#rosterUpload">Uploading Your Roster</a></td></tr>
-    <tr><td><a href="{{ url_for('zoomAPI.index') }}#strangerDanger">Uninvited Attendees</a></td></tr>
-    <tr><td><a href="{{ url_for('zoomAPI.index') }}#uninstall">Uninstallation</a></td></tr>
-  </table>
-</div>
 <div class="content">
   <h3 style="margin-top: 0;" id="why">Why Automatic Attendance Taker?</h3>
   <table id="reasonsWhy">

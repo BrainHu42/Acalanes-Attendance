@@ -7,9 +7,9 @@
 {% block content %}
 <div class="content">
   <form method="POST" enctype="multipart/form-data" id="center">
-    <p><input type="file" name="upload-file" accept=".xlsx" required></p>
-    <p>Only accepts .xlsx files.</p>
-    <input type="submit" class="button "value="Upload file"><a style="margin-left: 5px;" class="button" href="{{ url_for(account.details) }}">Back to home</a>
+    <p style="margin-top: 0;"><input type="file" name="upload-file" accept=".xlsx" required></p>
+    <p>Only accepts .xlsx files. <a href="{{ url_for('zoomAPI.index') }}#rosterUpload" class="link">How to upload a roster?</a></p>
+    <input type="submit" class="button "value="Upload file"><a style="margin-left: 5px;" class="button" href="{{ url_for('account.details') }}">Back to home</a>
   </form>
 </div>
 {% endblock %}

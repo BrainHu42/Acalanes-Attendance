@@ -33,7 +33,7 @@
 		<h3 style="margin: 0;">Unexpected Attendees</h3>
 		<h5 style="margin-top: 2px;">Are the following people in this class?</h5>
 		{% if not startTime == 0 %}
-			<h5 style="margin-bottom: 5px;">Period {{ period }} has already ended.<br />Strangers can no longer be admitted nor denied.</h5>
+			<h5 style="margin-bottom: 20px;">Period {{ period }} has already ended.<br />Strangers can no longer be admitted nor denied.</h5>
 		{% endif %}
 		<div id="strangerArea">
 		{% for unknown in stranger %}
