@@ -7,7 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta author="Zachary Hoffman (front-end), Brian Hu (back-end)" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="{{ url_for('static', filename='main.js') }}"></script>
+    <script src="{{ url_for('static', filename='globals.js') }}"></script>
+    <script src="{{ url_for('static', filename='time.js') }}"></script>
+    <script src="{{ url_for('static', filename='cookies.js') }}"></script>
+    <script src="{{ url_for('static', filename='page.js') }}"></script>
     <style>
       body {
         margin: auto;
@@ -433,138 +436,11 @@
       <div id="flash" class="content"><p>{{ message }}</p></div>
       {% endfor %}
       {% block content %}{% endblock %}
-      <script>
-        var cookie = get_cookie("remind");
-        var period, tardyTime = null;
-        var date = new Date();
-
-        if (document.getElementById("remindInput")) {
-          cookie == "yes" ? $("#remindInput").prop("checked", true) : $("#remindInput").prop("checked", false);
-        }
-
-        function get_cookie(cname) {
-          var name = cname + "=";
-          var decodedCookie = decodeURIComponent(document.cookie);
-          var ca = decodedCookie.split(";");
-          for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == " ") {
-              c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-              return c.substring(name.length, c.length);
-            }
-          }
-          return "";
-        }
-
-        function refresh_at(hours, minutes, seconds) {
-          var now = new Date();
-          var then = new Date();
-          if (now.getHours() > hours || (now.getHours() == hours && now.getMinutes() > minutes) ||now.getHours() == hours && now.getMinutes() == minutes && now.getSeconds() >= seconds) {
-            then.setDate(now.getDate() + 1);
-          }
-          then.setHours(hours);
-          then.setMinutes(minutes);
-          then.setSeconds(seconds);
-          var timeout = then.getTime() - now.getTime();
-          setTimeout(function() {
-            element = document.getElementById("refresh");
-            if (element) {
-              location.reload();
-            }
-          }, timeout);
-        }
-
-        function tardy_notification(hour, minute, time) {
-          if (cookie == "yes") {
-            if (time == null) {
-              return;
-            }
-            var then = new Date();
-            var now = new Date();
-            then.setHours(hour);
-            then.setMinutes(minute + time);
-            then.setSeconds(0);
-            var timeout = then.getTime() - now.getTime();
-            if (timeout < 0) {
-              return;
-            }
-            setTimeout(function() {
-              if (document.getElementById("refresh")) {
-                alert("Tardy time of " + time.toString() + " minutes reached.  Remember to update Aeries for period " + period.toString() + " now!");
-              }
-            }, timeout);
-          }
-        }
-
-        function checkPass(input) {
-          input.value != document.getElementById("password").value ? input.setCustomValidity("Passwords must match") : input.setCustomValidity('');
-        }
-
-        $("refresh").ready(function() {
-          tardyTime = parseInt("{{ tardyTime }}");
-          if (isNaN(tardyTime)) {
-            tardyTime = null;
-          }
-          period = parseInt("{{ period }}");
-          if (isNaN(period)) {
-            period = null;
-          }
-        });
-
-        function top_of_hour(hour) {
-          tardy_notification(hour, 0, tardyTime);
-          refresh_at(hour, 2, Math.floor(Math.random() * 30));
-          refresh_at(hour, 5, Math.floor(Math.random() * 30));
-          refresh_at(hour, 8, Math.floor(Math.random() * 30));
-          refresh_at(hour, 25, Math.floor(Math.random() * 30));
-          refresh_at(hour, 45, Math.floor(Math.random() * 30));
-        }
-
-        function bottom_of_hour(hour) {
-          tardy_notification(hour, 30, tardyTime);
-          refresh_at(hour, 32, Math.floor(Math.random() * 30));
-          refresh_at(hour, 35, Math.floor(Math.random() * 30));
-          refresh_at(hour, 38, Math.floor(Math.random() * 30));
-          refresh_at(hour, 55, Math.floor(Math.random() * 30));
-          refresh_at(hour + 1, 15, Math.floor(Math.random() * 30));
-        }
-
-        if (date.getDay() > 0 && date.getDay() < 6) {
-          refresh_at(9, 0, Math.floor(Math.random() * 60));
-          refresh_at(10, 30, Math.floor(Math.random() * 60));
-          refresh_at(11, 30, Math.floor(Math.random() * 60));
-          refresh_at(12, 30, Math.floor(Math.random() * 60));
-          refresh_at(13, 30, Math.floor(Math.random() * 60));
-          refresh_at(14, 0, Math.floor(Math.random() * 60));
-          if (period == 1 || period == 8) {
-            top_of_hour(9);
-          }
-          if (period == 2) {
-            bottom_of_hour(10);
-          }
-          if (period == 3) {
-            bottom_of_hour(12);
-          }
-          if (period == 4) {
-            top_of_hour(10);
-          }
-          if (period == 5) {
-            bottom_of_hour(11);
-          }
-          if (period == 6) {
-            bottom_of_hour(13);
-          }
-          if (period == 7) {
-            top_of_hour(14);
-          }
-        }
-      </script>
     </div>
     <footer>
       <p style="margin: 0;"><a href="{{ url_for('zoomAPI.index') }}">Manual</a></p>
       <p style="margin: 0;"><a href="{{ url_for('account.settings') }}">Upload Roster</a></p>
     </footer>
+    <script src="{{ url_for('static', filename='load.js') }}"></script>
   </body>
 <html>
