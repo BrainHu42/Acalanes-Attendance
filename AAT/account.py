@@ -32,10 +32,10 @@ def getPeriod(time):
     elif time>=4935 and time<5025:
         teacher = 'teacher2'
         startTime = 4950
-    elif time>=2175 and time<2265:
+    elif time>=2170 and time<2265:
         teacher = 'teacher3'
         startTime = 2190
-    elif time>=5055 and time<5145:
+    elif time>=5050 and time<5145:
         teacher = 'teacher3'
         startTime = 5070
     elif time>=2265 and time<2355:
@@ -56,10 +56,10 @@ def getPeriod(time):
     elif time>=6435 and time<6525:
         teacher = 'teacher5'
         startTime = 6450
-    elif time>=3675 and time<3765:
+    elif time>=3670 and time<3765:
         teacher = 'teacher6'
         startTime = 3690
-    elif time>=6555 and time<6645:
+    elif time>=6550 and time<6645:
         teacher = 'teacher6'
         startTime = 6570
     return teacher, startTime

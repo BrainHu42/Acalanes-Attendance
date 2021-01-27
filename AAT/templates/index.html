@@ -36,7 +36,8 @@
   <div class="shrink">
     <ul>
       <li>A roster must be uploaded.</li>
-      <li>Meetings must be started no more than 15 minutes prior to the beginning of class.</li>
+      <li>Waiting Room must be enabled throughout the meeting</li>
+      <li>Meetings should be started no more than 15 minutes prior to the beginning of class.</li>
       <li><strong>Read the section on <a href="{{ url_for('zoomAPI.index') }}#strangerDanger">uninvited attendees</a> below</strong></li>
     </ul>
   </div>
@@ -58,7 +59,7 @@
       <p>All that's necessary is to enter a password.</p>
       <p>Your login is automatically your district email.</p></li>
       <p class="img"><img class="deny" src="{{ url_for('static', filename='login.png') }}" width="400" alt="image not found"></p>
-      <li>Now you have to upload your roster.</li>
+      <li>Now follow the steps below to upload your roster</li>
     </ol>
   </div>
 </div>
@@ -71,9 +72,9 @@
       <li>Go to <a target="_blank" href="https://pass.acalanes.k12.ca.us/Teacher/Login.aspx">Aeries</a></li>
       <li>On the left panel of the of the homepage, click on reports and then class roster.</li>
       <p class="img"><img src="{{ url_for('static', filename='rosterLocation.png') }}" width="400" alt="image not found"></p>
-      <li>Configure the report to contain the following settings.  If it is the first semester, the term code should be 1.  If it is the second semester, use term code 3.  Make sure to uncheck all boxes on the right.  This step is important because the program will not function if the sheet is formatted incorrectly.</li>
+      <li>Configure the report to contain the following settings. For second semester, use term code 3.  Make sure to uncheck all boxes on the right. The upload process might fail if the sheet is formatted incorrectly.</li>
       <p class="img"><img src="{{ url_for('static', filename='rosterSettings.png') }}" width="400" alt="Report Format = XLSX, Specific term code = 1, Sort with Teacher/Period, Uncheck all boxes on the right, Click Run Report at the bottom"></p>
-      <li>After downloading the report and uploading the file to Automatic Attendance Taker, the process is complete.  Now you can start using the app!</li>
+      <li>After downloading the report and uploading the file, the process is complete. Make sure to bookmark the dashboard page for easy access. Now you can start using the app!</li>
     </ol>
   </div>
 </div>
