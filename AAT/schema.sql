@@ -29,7 +29,9 @@ CREATE TABLE student (
   teacher7 TEXT,
   teacher8 TEXT,
   userID TEXT UNIQUE,
-  confidence INTEGER
+  confidence INTEGER,
+  teacher0 TEXT,
+  cohort TEXT,
 );
 
 CREATE TABLE stranger (

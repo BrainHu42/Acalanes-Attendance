@@ -14,54 +14,68 @@ from AAT.db import get_db
 
 bp = Blueprint('account', __name__, url_prefix='/account')
 
+# def getPeriod(time):
+#     teacher = 'teacher0'
+#     startTime = 540
+#     if time>=500 and time<585:
+#         teacher = 'teacher8'
+#         startTime = 540
+#     elif time>=1940 and time<2055: 
+#         teacher = 'teacher1'
+#         startTime = 1980
+#     elif time>=4820 and time<4935:
+#         teacher = 'teacher1'
+#         startTime = 4860
+#     elif time>=2055 and time<2145:
+#         teacher = 'teacher2'
+#         startTime = 2070
+#     elif time>=4935 and time<5025:
+#         teacher = 'teacher2'
+#         startTime = 4950
+#     elif time>=2170 and time<2265:
+#         teacher = 'teacher3'
+#         startTime = 2190
+#     elif time>=5050 and time<5145:
+#         teacher = 'teacher3'
+#         startTime = 5070
+#     elif time>=2265 and time<2355:
+#         teacher = 'teacher7'
+#         startTime = 2280
+#     elif time>=5145 and time<5235:
+#         teacher = 'teacher7'
+#         startTime = 5160
+#     elif time>=3460 and time<3555:
+#         teacher = 'teacher4'
+#         startTime = 3480
+#     elif time>=6340 and time<6435:
+#         teacher = 'teacher4'
+#         startTime = 6360
+#     elif time>=3555 and time<3645:
+#         teacher = 'teacher5'
+#         startTime = 3570
+#     elif time>=6435 and time<6525:
+#         teacher = 'teacher5'
+#         startTime = 6450
+#     elif time>=3670 and time<3765:
+#         teacher = 'teacher6'
+#         startTime = 3690
+#     elif time>=6550 and time<6645:
+#         teacher = 'teacher6'
+#         startTime = 6570
+#     return teacher, startTime
+
+#transition week
 def getPeriod(time):
-    teacher = 'teacher0'
-    startTime = 540
-    if time>=500 and time<585:
-        teacher = 'teacher8'
-        startTime = 540
-    elif time>=1940 and time<2055: 
-        teacher = 'teacher1'
+    teacher = 'teacher8'
+    startTime = 1980
+    if time>1920 and time<2040:
         startTime = 1980
-    elif time>=4820 and time<4935:
-        teacher = 'teacher1'
+    elif time>3360 and time<3480:
+        startTime = 3420
+    elif time>4800 and time<4920:
         startTime = 4860
-    elif time>=2055 and time<2145:
-        teacher = 'teacher2'
-        startTime = 2070
-    elif time>=4935 and time<5025:
-        teacher = 'teacher2'
-        startTime = 4950
-    elif time>=2170 and time<2265:
-        teacher = 'teacher3'
-        startTime = 2190
-    elif time>=5050 and time<5145:
-        teacher = 'teacher3'
-        startTime = 5070
-    elif time>=2265 and time<2355:
-        teacher = 'teacher7'
-        startTime = 2280
-    elif time>=5145 and time<5235:
-        teacher = 'teacher7'
-        startTime = 5160
-    elif time>=3460 and time<3555:
-        teacher = 'teacher4'
-        startTime = 3480
-    elif time>=6340 and time<6435:
-        teacher = 'teacher4'
-        startTime = 6360
-    elif time>=3555 and time<3645:
-        teacher = 'teacher5'
-        startTime = 3570
-    elif time>=6435 and time<6525:
-        teacher = 'teacher5'
-        startTime = 6450
-    elif time>=3670 and time<3765:
-        teacher = 'teacher6'
-        startTime = 3690
-    elif time>=6550 and time<6645:
-        teacher = 'teacher6'
-        startTime = 6570
+    elif time>6240 and time<6360:
+        startTime = 6300
     return teacher, startTime
 
 #special mondays
