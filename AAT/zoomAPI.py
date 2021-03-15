@@ -122,16 +122,14 @@ def index():
                 account = db.fetchone()
 
                 db.execute('SELECT name FROM stranger WHERE currentMeeting = %s;', (account[2],))
-                stranger = []
-                for unknown in db:
-                    stranger.append(unknown[0])
+                stranger = [unknown[0] for unknown in db]
                 
                 db.execute('DELETE FROM stranger WHERE currentMeeting = %s;', (account[2],))
 
                 db.execute('SELECT EXTRACT(DOW FROM %s), EXTRACT(HOUR FROM %s), EXTRACT(MINUTE FROM %s);', (account[3], account[3], account[3]))
                 time = db.fetchone()
                 period, startTime = getPeriod((time[0]-1)*24*60+time[1]*60+time[2])
-                if period == 'teacher0':
+                if period == 'teacherNone':
                     db.execute('UPDATE teacher SET currentMeeting = NULL WHERE userID = %s;', (userID,))
                     db_conn.commit()
                     return Response(status=200, mimetype='application/json')
@@ -152,7 +150,7 @@ def index():
                     return Response(status=200, mimetype='application/json')
                 # #assert that only one meeting per period per day
 
-                db.execute('SELECT EXTRACT(DOW FROM joinTime), EXTRACT(HOUR FROM joinTime), EXTRACT(MINUTE FROM joinTime), name, currentMeeting FROM student WHERE {} = %s;'.format(period), (account[0],))
+                db.execute('SELECT EXTRACT(DOW FROM joinTime), EXTRACT(HOUR FROM joinTime), EXTRACT(MINUTE FROM joinTime), name, currentMeeting, cohort FROM student WHERE {} = %s;'.format(period), (account[0],))
                 roster = db.fetchall()
                 if len(roster) == 0:
                     db.execute('UPDATE teacher SET currentMeeting = NULL WHERE userID = %s;', (userID,))
@@ -166,15 +164,52 @@ def index():
                 for student in roster:
                     name = student[3]
                     currentMeeting = student[4]
-                    if currentMeeting == account[2] and student[0] != None:
-                        #student is in class
-                        joinTime = (student[0]-1)*24*60+student[1]*60+student[2]
-                        if joinTime-startTime>30:
+                    cohort = student[5]
+                    if 'C' in cohort:
+                        #student is completely remote
+                        if currentMeeting == account[2] and student[0] != None:
+                            #student is in zoom meeting
+                            joinTime = (student[0]-1)*24*60+student[1]*60+student[2]
+                            if joinTime-startTime>30:
+                                absent.append(name)
+                            elif joinTime-startTime>account[5]:
+                                tardy.append(name)
+                        elif currentMeeting != 'temporary':
                             absent.append(name)
-                        elif joinTime-startTime>account[5]:
-                            tardy.append(name)
-                    else:
-                        absent.append(name)
+                    elif cohort == 'A':
+                        #cohort A
+                        if time[0] == 3 or time[0] == 5:
+                            #is expected to be there
+                            if currentMeeting == account[2] and student[0] != None:
+                                #student is in zoom meeting
+                                joinTime = (student[0]-1)*24*60+student[1]*60+student[2]
+                                if joinTime-startTime>30:
+                                    absent.append(name)
+                                elif joinTime-startTime>account[5]:
+                                    tardy.append(name)
+                            else:
+                                absent.append(name)
+                        else:
+                            #not supposed to be there so stranger
+                            if currentMeeting == account[2] and currentMeeting != 'temporary':
+                                stranger.append(name)
+                    elif cohort == 'B':
+                        #cohort B
+                        if time[0] == 2 or time[0] == 4:
+                            #is expected to be there
+                            if currentMeeting == account[2] and student[0] != None:
+                                #student is in zoom meeting
+                                joinTime = (student[0]-1)*24*60+student[1]*60+student[2]
+                                if joinTime-startTime>30:
+                                    absent.append(name)
+                                elif joinTime-startTime>account[5]:
+                                    tardy.append(name)
+                            else:
+                                absent.append(name)
+                        else:
+                            #not supposed to be there so stranger
+                            if currentMeeting == account[2] and currentMeeting != 'temporary':
+                                stranger.append(name)
                 
                 #add to history
                 db.execute('UPDATE history SET absent = %s, tardy = %s, stranger = %s, date = %s WHERE period = %s AND teacher = %s;', (absent, tardy, stranger, account[3], period, account[0]))

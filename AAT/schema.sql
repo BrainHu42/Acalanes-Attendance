@@ -32,6 +32,7 @@ CREATE TABLE student (
   confidence INTEGER,
   teacher0 TEXT,
   cohort TEXT,
+  studentID INTEGER
 );
 
 CREATE TABLE stranger (
