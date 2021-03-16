@@ -274,13 +274,13 @@ def settings():
 @bp.route('/removeAbsence/<string:name>/<boolean>', methods=('GET',))
 @login_required
 def removeAbsence(name, boolean):
+    db_conn = get_db()
+    db = db_conn.cursor()
+    account = g.user
+    db.execute('SELECT cohort, currentMeeting FROM student WHERE name = %s;', (name,))
+    student = db.fetchone()
+    cohort = student[0]
     if boolean == 'perm':
-        db_conn = get_db()
-        db = db_conn.cursor()
-        account = g.user
-        db.execute('SELECT cohort, currentMeeting FROM student WHERE name = %s;', (name,))
-        student = db.fetchone()
-        cohort = student[0]
         if 'C' in cohort:
             #completely remote but change to in person
             db.execute('UPDATE student SET cohort = %s WHERE name = %s;', (cohort[:-1], name))
@@ -288,12 +288,6 @@ def removeAbsence(name, boolean):
             #in person but change to on zoom
             db.execute('UPDATE student SET cohort = %s, currentMeeting = %s, joinTime = %s WHERE name = %s;', (cohort+'C', account[2], account[3], name))
     elif boolean == 'temp':
-        db_conn = get_db()
-        db = db_conn.cursor()
-        account = g.user
-        db.execute('SELECT cohort, currentMeeting FROM student WHERE name = %s;', (name,))
-        student = db.fetchone()
-        cohort = student[0]
         if 'C' in cohort:
             #completely remote change to in person
             db.execute('UPDATE student SET currentMeeting = %s WHERE name = %s;', ('temporary', name))
@@ -423,7 +417,7 @@ def meetingReset():
     if db.rowcount <= 0:
         db.execute('INSERT INTO history (absent, tardy, stranger, date, period, teacher) VALUES (%s, %s, %s, %s, %s, %s);', (absent, tardy, stranger, account[3], period, account[0]))
 
-    db.execute('UPDATE teacher SET currentMeeting = NULL WHERE userID = %s;', (userID,))
+    db.execute('UPDATE teacher SET startTime = NOW() WHERE email = %s;', (account[0],))
     db_conn.commit()
 
     return redirect(url_for('account.details'))
@@ -474,7 +468,6 @@ def details():
         currentTime = (time[0]-1)*24*60+time[1]*60+time[2]
         period, startTime = getPeriod(currentTime)
 
-        #ask for period number if unsure
 
         
         if period != 'teacherNone':

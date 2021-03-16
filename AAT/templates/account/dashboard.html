@@ -48,8 +48,8 @@
 			{% else %}
 				{% if unknown[1] == None %}
 				<p>{{ unknown[0] }}
-					<a style="background-color: #cf504c; border-radius: 8px; color: white; float: right; margin: 2px; font-size: 10px; padding: 8px 10px; text-decoration: none; position: relative; bottom: 6px;" href="{{ url_for('account.removeAbsence', name=unknown[0], boolean='temp') }}">Remove</a>
-					<a style="background-color: #5cab6c; border-radius: 8px; color: white; float: right; margin: 2px; font-size: 10px; padding: 8px 10px; text-decoration: none; position: relative; bottom: 6px;" href="{{ url_for('account.removeAbsence', name=unknown[0], boolean='perm') }}">Change to Remote</a>
+					<a style="background-color: #cf504c; border-radius: 8px; color: white; float: right; margin: 2px; font-size: 10px; padding: 8px 10px; text-decoration: none; position: relative; bottom: 6px;" href="{{ url_for('account.removeAbsence', name=unknown[0], boolean='temp') }}">Ignore</a>
+					<a style="background-color: #5cab6c; border-radius: 8px; color: white; float: right; margin: 2px; font-size: 10px; padding: 8px 10px; text-decoration: none; position: relative; bottom: 6px;" href="{{ url_for('account.removeAbsence', name=unknown[0], boolean='perm') }}" onclick="return confirm('Would you like to permanently change '+'{{ unknown[0] }}'+' to completely remote?')">Switch to Remote</a>
 				</p>
 				{% else %}
 				<p>{{ unknown[0] }}
