@@ -366,7 +366,7 @@ def meetingReset():
         name = student[3]
         currentMeeting = student[4]
         cohort = student[5]
-        if 'C' in cohort:
+        if cohort is not None and 'C' in cohort:
             #student is completely remote
             if currentMeeting == account[2] and student[0] != None:
                 #student is in zoom meeting
