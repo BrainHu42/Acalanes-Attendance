@@ -236,7 +236,7 @@ def settings():
         row_index = 1
         #reset roster
         if uploaded_file != None and file_sheet.max_row>10:
-            db.execute('UPDATE student SET teacher0 = NULL WHERE teacher1 = %s;', (email,))
+            db.execute('UPDATE student SET teacher0 = NULL WHERE teacher0 = %s;', (email,))
             db.execute('UPDATE student SET teacher1 = NULL WHERE teacher1 = %s;', (email,))
             db.execute('UPDATE student SET teacher2 = NULL WHERE teacher2 = %s;', (email,))
             db.execute('UPDATE student SET teacher3 = NULL WHERE teacher3 = %s;', (email,))
