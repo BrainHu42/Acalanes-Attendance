@@ -85,7 +85,7 @@ def getPeriod(time):
     teacher = 'teacherNone'
     startTime = 540
     if time>=500 and time<585:
-        teacher = 'teacher8'
+        teacher = 'teacher9'
         starTime = 540
     elif time>=1910 and time<2025:
         teacher = 'teacher1'
@@ -236,7 +236,6 @@ def settings():
         row_index = 1
         #reset roster
         if uploaded_file != None and file_sheet.max_row>10:
-            db.execute('UPDATE student SET teacher8 = NULL WHERE teacher0 = %s;', (email,))
             db.execute('UPDATE student SET teacher0 = NULL WHERE teacher1 = %s;', (email,))
             db.execute('UPDATE student SET teacher1 = NULL WHERE teacher1 = %s;', (email,))
             db.execute('UPDATE student SET teacher2 = NULL WHERE teacher2 = %s;', (email,))
@@ -246,7 +245,7 @@ def settings():
             db.execute('UPDATE student SET teacher6 = NULL WHERE teacher6 = %s;', (email,))
             db.execute('UPDATE student SET teacher7 = NULL WHERE teacher7 = %s;', (email,))
             db.execute('UPDATE student SET teacher8 = NULL WHERE teacher8 = %s;', (email,))
-            db.execute('UPDATE student SET teacher8 = NULL WHERE teacher9 = %s;', (email,))
+            db.execute('UPDATE student SET teacher9 = NULL WHERE teacher9 = %s;', (email,))
 
         while row_index < file_sheet.max_row:
             if file_sheet.cell(row=row_index, column=1).value=="Period":
@@ -423,7 +422,7 @@ def meetingReset():
     if db.rowcount <= 0:
         db.execute('INSERT INTO history (absent, tardy, stranger, date, period, teacher) VALUES (%s, %s, %s, %s, %s, %s);', (absent, tardy, stranger, account[3], period, account[0]))
 
-    db.execute('UPDATE teacher SET startTime = NOW() WHERE email = %s;', (account[0],))
+    db.execute('UPDATE teacher SET startTime = NOW(), currentMeeting = %s WHERE email = %s;', ('reset', account[0]))
     db_conn.commit()
 
     return redirect(url_for('account.details'))
@@ -446,7 +445,7 @@ def roster():
     time = db.fetchone()
     period, startTime = getPeriod((time[0]-1)*24*60+time[1]*60+time[2])
     if period == 'teacherNone':
-        period = 'teacher8'
+        period = 'teacher9'
     
     db.execute('SELECT name FROM student WHERE {} = %s AND currentMeeting = %s;'.format(period), (account[0], account[2]))
     roster = db.fetchall()
@@ -479,8 +478,13 @@ def details():
         if period != 'teacherNone':
             db.execute('SELECT EXTRACT(DOW FROM joinTime), EXTRACT(HOUR FROM joinTime), EXTRACT(MINUTE FROM joinTime), name, currentMeeting, cohort FROM student WHERE {} = %s;'.format(period), (account[0],))
         else:
-            period = 'teacher8'
+            period = 'teacher9'
         
+        # if account[2] == 'reset' and period != 'teacherNone':
+        #     count = {}
+        #     maybeMeeting = None
+        #     for student in db:
+                
         if account[2] == None or db.rowcount <= 0:
             #look in history if no class is currently live
             classes = ['teacher6', 'teacher5', 'teacher4', 'teacher7', 'teacher3', 'teacher2', 'teacher1', 'teacher6', 'teacher5', 'teacher4']
