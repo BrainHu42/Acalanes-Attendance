@@ -155,6 +155,10 @@ def getPeriod(time):
 #         startTime = 810
 #     return teacher, startTime
 
+@bp.route('/scanner', methods=('GET',))
+def scanner():
+    return render_template('account/scanner.html')
+
 @bp.route('/admit/<userID>', methods=('GET', 'POST'))
 @login_required
 def admit(userID):
@@ -232,6 +236,7 @@ def settings():
         row_index = 1
         #reset roster
         if uploaded_file != None and file_sheet.max_row>10:
+            db.execute('UPDATE student SET teacher8 = NULL WHERE teacher0 = %s;', (email,))
             db.execute('UPDATE student SET teacher0 = NULL WHERE teacher1 = %s;', (email,))
             db.execute('UPDATE student SET teacher1 = NULL WHERE teacher1 = %s;', (email,))
             db.execute('UPDATE student SET teacher2 = NULL WHERE teacher2 = %s;', (email,))
@@ -241,6 +246,7 @@ def settings():
             db.execute('UPDATE student SET teacher6 = NULL WHERE teacher6 = %s;', (email,))
             db.execute('UPDATE student SET teacher7 = NULL WHERE teacher7 = %s;', (email,))
             db.execute('UPDATE student SET teacher8 = NULL WHERE teacher8 = %s;', (email,))
+            db.execute('UPDATE student SET teacher8 = NULL WHERE teacher9 = %s;', (email,))
 
         while row_index < file_sheet.max_row:
             if file_sheet.cell(row=row_index, column=1).value=="Period":
