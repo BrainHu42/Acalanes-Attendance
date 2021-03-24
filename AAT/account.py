@@ -480,11 +480,29 @@ def details():
         else:
             period = 'teacher9'
         
-        # if account[2] == 'reset' and period != 'teacherNone':
-        #     count = {}
-        #     maybeMeeting = None
-        #     for student in db:
-                
+        if account[2] == 'reset' and period != 'teacherNone':
+            meeting_counts = {}
+            for student in db:
+                if student[0] == time[0]:
+                    meeting = student[4]
+                    if meeting in meeting_counts:
+                        meeting_counts[meeting] += 1
+                    else:
+                        meeting_counts[meeting] = 1
+            
+            max = 0
+            maybeMeeting = None
+            for key in meeting_counts.keys():
+                if meeting_counts[key] > max:
+                    max = meeting_counts[key]
+                    maybeMeeting = key
+            
+            account[2] = maybeMeeting
+            if max >= 5:
+                db.execute('UPDATE teacher SET currentMeeting = %s WHERE email = %s;', (maybeMeeting, account[0]))
+                db_conn.commit()
+            
+
         if account[2] == None or db.rowcount <= 0:
             #look in history if no class is currently live
             classes = ['teacher6', 'teacher5', 'teacher4', 'teacher7', 'teacher3', 'teacher2', 'teacher1', 'teacher6', 'teacher5', 'teacher4']
