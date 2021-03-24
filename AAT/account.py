@@ -467,6 +467,7 @@ def details():
     elif request.method == 'GET':
         db = get_db().cursor()
         account = g.user
+        teacherMeeting = account[2]
 
         db.execute('SELECT EXTRACT(DOW FROM startTime), EXTRACT(HOUR FROM startTime), EXTRACT(MINUTE FROM startTime) FROM teacher WHERE email = %s;', (account[0],))
         time = db.fetchone()
@@ -480,7 +481,7 @@ def details():
         else:
             period = 'teacher9'
         
-        if account[2] == 'reset' and period != 'teacherNone':
+        if teacherMeeting == 'reset' and period != 'teacherNone':
             meeting_counts = {}
             for student in db:
                 if student[0] == time[0]:
@@ -497,13 +498,13 @@ def details():
                     max = meeting_counts[key]
                     maybeMeeting = key
             
-            # account[2] = maybeMeeting
+            teacherMeeting = maybeMeeting
             if max >= 3:
                 db.execute('UPDATE teacher SET currentMeeting = %s WHERE email = %s;', (maybeMeeting, account[0]))
                 get_db().commit()
             
 
-        if account[2] == None or db.rowcount <= 0:
+        if teacherMeeting == None or db.rowcount <= 0:
             #look in history if no class is currently live
             classes = ['teacher6', 'teacher5', 'teacher4', 'teacher7', 'teacher3', 'teacher2', 'teacher1', 'teacher6', 'teacher5', 'teacher4']
             temp = False
@@ -532,7 +533,7 @@ def details():
             cohort = student[5]
             if cohort is not None and 'C' in cohort:
                 #student is completely remote
-                if currentMeeting == account[2] and student[0] != None:
+                if currentMeeting == teacherMeeting and student[0] != None:
                     #student is in zoom meeting
                     numPresent += 1
                     joinTime = (student[0]-1)*24*60+student[1]*60+student[2]
@@ -546,7 +547,7 @@ def details():
                 #cohort A
                 if time[0] == 3 or time[0] == 5:
                     #is expected to be there
-                    if currentMeeting == account[2] and student[0] != None:
+                    if currentMeeting == teacherMeeting and student[0] != None:
                         #student is in zoom meeting
                         numPresent += 1
                         joinTime = (student[0]-1)*24*60+student[1]*60+student[2]
@@ -558,7 +559,7 @@ def details():
                         absent.append((name,cohort))
                 else:
                     #not supposed to be there so stranger
-                    if currentMeeting == account[2]:
+                    if currentMeeting == teacherMeeting:
                         numPresent += 1
                         if currentMeeting != 'temporary':
                             stranger_danger.append((name, None))
@@ -566,7 +567,7 @@ def details():
                 #cohort B
                 if time[0] == 2 or time[0] == 4:
                     #is expected to be there
-                    if currentMeeting == account[2] and student[0] != None:
+                    if currentMeeting == teacherMeeting and student[0] != None:
                         #student is in zoom meeting
                         numPresent += 1
                         joinTime = (student[0]-1)*24*60+student[1]*60+student[2]
@@ -578,13 +579,13 @@ def details():
                         absent.append((name,cohort))
                 else:
                     #not supposed to be there so stranger
-                    if currentMeeting == account[2]:
+                    if currentMeeting == teacherMeeting:
                         numPresent += 1
                         if currentMeeting != 'temporary':
                             stranger_danger.append((name, None))
 
                 
-        db.execute('SELECT name, userID FROM stranger WHERE currentMeeting = %s;', (account[2],))
+        db.execute('SELECT name, userID FROM stranger WHERE currentMeeting = %s;', (teacherMeeting,))
         strangers = list(db.fetchall())
         stranger_danger += strangers
         numPresent += len(strangers)
