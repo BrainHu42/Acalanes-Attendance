@@ -467,6 +467,7 @@ def details():
     elif request.method == 'GET':
         db = get_db().cursor()
         account = g.user
+        teacherMeeting = account[2]
 
         db.execute('SELECT EXTRACT(DOW FROM startTime), EXTRACT(HOUR FROM startTime), EXTRACT(MINUTE FROM startTime) FROM teacher WHERE email = %s;', (account[0],))
         time = db.fetchone()
@@ -497,8 +498,8 @@ def details():
                     max = meeting_counts[key]
                     maybeMeeting = key
             
-            account[2] = maybeMeeting
-            if max >= 5:
+            # account[2] = maybeMeeting
+            if max >= 3:
                 db.execute('UPDATE teacher SET currentMeeting = %s WHERE email = %s;', (maybeMeeting, account[0]))
                 db_conn.commit()
             
