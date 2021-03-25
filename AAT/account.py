@@ -465,7 +465,8 @@ def details():
         return redirect(url_for('account.details'))
 
     elif request.method == 'GET':
-        db = get_db().cursor()
+        db_conn = get_db()
+        db = db_conn.cursor()
         account = g.user
         teacherMeeting = account[2]
 
@@ -502,7 +503,7 @@ def details():
             teacherMeeting = maybeMeeting
             if max >= 3:
                 db.execute('UPDATE teacher SET currentMeeting = %s WHERE email = %s;', (maybeMeeting, account[0]))
-                get_db().commit()
+                db_conn.commit()
             
 
         if teacherMeeting == None or len(student_list) <= 0:
