@@ -475,15 +475,16 @@ def details():
         period, startTime = getPeriod(currentTime)
 
 
-        
+        student_list = []
         if period != 'teacherNone':
             db.execute('SELECT EXTRACT(DOW FROM joinTime), EXTRACT(HOUR FROM joinTime), EXTRACT(MINUTE FROM joinTime), name, currentMeeting, cohort FROM student WHERE {} = %s;'.format(period), (account[0],))
+            student_list = db.fetchall()
         else:
             period = 'teacher9'
         
-        if teacherMeeting == 'reset' and period != 'teacherNone':
+        if teacherMeeting == 'reset' and len(student_list) > 0:
             meeting_counts = {}
-            for student in db:
+            for student in student_list:
                 if student[0] == time[0]:
                     meeting = student[4]
                     if meeting in meeting_counts:
@@ -504,7 +505,7 @@ def details():
                 get_db().commit()
             
 
-        if teacherMeeting == None or db.rowcount <= 0:
+        if teacherMeeting == None or len(student_list) <= 0:
             #look in history if no class is currently live
             classes = ['teacher6', 'teacher5', 'teacher4', 'teacher7', 'teacher3', 'teacher2', 'teacher1', 'teacher6', 'teacher5', 'teacher4']
             temp = False
@@ -527,7 +528,7 @@ def details():
         stranger_danger = []
         numPresent = 0
 
-        for student in db:
+        for student in student_list:
             name = student[3]
             currentMeeting = student[4]
             cohort = student[5]
