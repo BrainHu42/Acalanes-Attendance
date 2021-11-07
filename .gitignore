@@ -1,5 +1,5 @@
 .DS_Store
 venv/
 tests/
-test.py
 .env
+test.py
